@@ -33,7 +33,7 @@ messages_df <- textstat_frequency(dfm2, force = TRUE)
 #include colours for plotting
 messages_df <- messages_df%>%
   mutate(color = case_when(feature == "merci" ~ "red",
-                           TRUE ~ "white"))
+                           TRUE ~ "black"))
 
 
 #Visualization -----------
@@ -58,12 +58,11 @@ plot2
 figpath = "data/heart.png"
 col = messages_df$color
 
-plot3 <-  wordcloud2(messages_df[0:75,],
+plot3 <-  wordcloud2(messages_df[0:150,],
                      #figPath = figpath,    can't make it work (??)
-                     shape = "triangle-forward",
                      size=0.5,
-                     backgroundColor = "black",
-                     color = col[0:75])
+                     backgroundColor = "white",
+                     color = col[0:150])
 plot3
 
 #TUTO: https://cran.r-project.org/web/packages/wordcloud2/vignettes/wordcloud.html
