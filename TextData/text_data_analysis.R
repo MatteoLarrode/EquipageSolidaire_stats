@@ -1,0 +1,44 @@
+# load libraries & data----------
+library(tidyverse)
+library(ggplot2)
+library(quanteda)
+library(quanteda.textstats)
+library(wordcloud)
+library(RColorBrewer)
+library(wordcloud2)
+
+messages <- read_csv("data/Remerciements - Sheet1.csv")
+
+#Text Preparation --------------
+messagesCorpus <- corpus(messages$Remerciement)
+
+#turn corpus into document-feature matrix
+dtm <- messagesCorpus %>%
+  tokens(remove_numbers=T,
+         remove_punct=T,
+         include_docvars=T,
+         remove_symbols = T) %>%
+  tokens_remove(stopwords("fr")) %>%
+  dfm(tolower=T)%>%
+  dfm_tfidf()
+
+#remove other words
+dfm2 <- dfm %>% 
+  dfm_remove(c("très", "j'ai", "tout", "vraiment", "c'est", "a", "ça", "comme", "plus", "faites", "now", "united", "jetblue", "us"))
+
+
+#returns a data.frame object, making it easier to use the output for further analyses
+messages_df <- textstat_frequency(dtm, force = TRUE)
+
+
+#Visualization -----------
+wordcloud(words = messages_df$feature, freq = messages_df$frequency, 
+          max.words=100, 
+          random.order=FALSE, 
+          colors=brewer.pal(8, "Dark2"), #METTRE COULEURS OFFICIELLES DE L'ASSO
+          font = "Roboto",   #METTRE FONT OFFICIELLE DE L'ASSO
+          scale=c(4, .5))
+
+
+
+
