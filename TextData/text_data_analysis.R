@@ -49,7 +49,7 @@ plot1
 
 
 #plot 2 {wordcloud2} MIEUX
-plot2 <- wordcloud2(messages_df, 
+plot2 <- wordcloud2(messages_df[0:150,], 
                     size=0.5,
                     color='random-dark')
 plot2
